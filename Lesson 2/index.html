@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script language="javascript" type="text/javascript" src="../glMatrix-0.9.5.min.js"></script>
+	<script language="javascript" type="text/javascript" src="Vector3.js"></script>
+	<script language="javascript" type="text/javascript" src="PVM.js"></script>
+	<script language="javascript" type="text/javascript" src="Square.js"></script>
+	<script language="javascript" type="text/javascript" src="lessonjs.js"></script>
+
+	<title></title>
+</head>
+<body onload="webGLStart();">
+
+<script id="shader-fs" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec4 vColor;
+
+void main(void){
+	gl_FragColor = vColor;
+}
+
+</script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+
+attribute vec3 aVertexPosition;
+attribute vec4 aVertexColor;
+
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+
+varying vec4 vColor;
+
+void main(void){
+	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+	vColor = aVertexColor;
+}
+
+</script>
+
+<canvas id="canvas" width="500" height="500"></canvas>
+
+</body>
+</html>
