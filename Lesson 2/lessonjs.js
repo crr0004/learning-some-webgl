@@ -1,10 +1,9 @@
 var triangleVertextPositionBuffer;
 var triangleColorBuffer;
 var gl;
-var mvMatrix = mat4.create();
-var pMatrix = mat4.create();
 var shaderProgram;
 var pvm = new PVM();
+var triangle;
 
 function webGLStart(){
 	var canvas = document.getElementById("canvas");
@@ -64,7 +63,7 @@ function initGL(canvas){
 
 function initBuffers(){
 
-	triangleVertextPositionBuffer = gl.createBuffer();
+	/*triangleVertextPositionBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertextPositionBuffer);
 
 	var triangleVertices = [
@@ -75,7 +74,7 @@ function initBuffers(){
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.STATIC_DRAW);
 	triangleVertextPositionBuffer.itemSize = 3;
 	triangleVertextPositionBuffer.numItems = 3;
-	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+	//gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
 	triangleColorBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, triangleColorBuffer);
@@ -87,8 +86,10 @@ function initBuffers(){
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 	triangleColorBuffer.itemSize = 4;
 	triangleColorBuffer.numItems = 3;
-	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+	//gl.bindBuffer(gl.ARRAY_BUFFER, null);*/
 
+	triangle = new Square(new Vector3(-1.5, 0.0, -7.0));
+	triangle.create(gl, 1);
 }
 
 function drawScene(){
@@ -98,30 +99,30 @@ function drawScene(){
 	/*mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);*/
 	pvm.setPerspective(gl.viewportWidth, gl.viewportHeight);
 
-	/*mat4.identity(mvMatrix);*/
-	pvm.push();
-	shaderProgram.use(gl);
+// /*	//mat4.identity(mvMatrix);
+// 	//pvm.push();
+// 	shaderProgram.use(gl);
 
-	/*gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-	gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);*/
+// 	/*gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+// 	gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);*/
 
-	gl.enableVertexAttribArray(shaderProgram.getPositionAttribute());
-	gl.enableVertexAttribArray(shaderProgram.getColorAttribute());
+// 	gl.enableVertexAttribArray(shaderProgram.getPositionAttribute());
+// 	gl.enableVertexAttribArray(shaderProgram.getColorAttribute());
 
-	/*mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);*/
-	pvm.translate(-1.5, 0.0, -7.0);
+// 	/*mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);*/
+// 	pvm.translate(-1.5, 0.0, -7.0);
 
-	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertextPositionBuffer);
-	/*gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertextPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);*/
-	gl.vertexAttribPointer(shaderProgram.getPositionAttribute(), triangleVertextPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+// 	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertextPositionBuffer);
+// 	gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertextPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+// 	gl.vertexAttribPointer(shaderProgram.getPositionAttribute(), triangleVertextPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-	gl.bindBuffer(gl.ARRAY_BUFFER, triangleColorBuffer);
-	/*gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, triangleColorBuffer.itemSize, gl.FLOAT, false, 0, 0);*/
-	gl.vertexAttribPointer(shaderProgram.getColorAttribute(), triangleColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+// 	gl.bindBuffer(gl.ARRAY_BUFFER, triangleColorBuffer);
+// 	/*gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, triangleColorBuffer.itemSize, gl.FLOAT, false, 0, 0);*/
+// 	gl.vertexAttribPointer(shaderProgram.getColorAttribute(), triangleColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-	setMatrixUniforms();
-	pvm.pop();
+// 	setMatrixUniforms();
+// 	gl.drawArrays(gl.TRIANGLES, 0, triangleVertextPositionBuffer.numItems);
+// 	//pvm.pop();*/
 
-	gl.drawArrays(gl.TRIANGLES, 0, triangleVertextPositionBuffer.numItems);
-
+	triangle.draw(gl, pvm, shaderProgram);
 }
