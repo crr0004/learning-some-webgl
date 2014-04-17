@@ -12,9 +12,9 @@ PVM.prototype.setPerspective = function(viewportWidth, viewportHeight){
 	mat4.perspective(45, viewportWidth / viewportHeight, 0.1, 100.0, this.pMatrix);
 };
 
-PVM.prototype.setUniformLocations = function(gl, shaderProgram){
-	this.pMatrixUniformLocation = gl.getUniformLocation(shaderProgram, "uPMatrix");
-	this.mvMatrixUniformLocation = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+PVM.prototype.setUniformLocations = function(gl, shaderID){
+	this.pMatrixUniformLocation = gl.getUniformLocation(shaderID, "uPMatrix");
+	this.mvMatrixUniformLocation = gl.getUniformLocation(shaderID, "uMVMatrix");
 };
 
 PVM.prototype.setMatrixUniforms = function(gl){

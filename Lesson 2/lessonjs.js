@@ -20,7 +20,7 @@ function webGLStart(){
 }
 
 function initShaders(){
-	var fragmentShader = getShader(gl, "shader-fs");
+	/*var fragmentShader = getShader(gl, "shader-fs");
 	var vertexShader = getShader(gl, "shader-vs");
 
 	shaderProgram = gl.createProgram();
@@ -35,43 +35,12 @@ function initShaders(){
 	gl.useProgram(shaderProgram);
 
 	shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-	shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+	shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");*/
 
-	pvm.setUniformLocations(gl, shaderProgram);
-}
+	shaderProgram = new Shader();
+	shaderProgram.create(gl);
 
-function getShader(gl, id){
-	var shaderScript = document.getElementById(id);
-	if(!shaderScript){
-		return null;
-	}
-
-	var str = "";
-	var k = shaderScript.firstChild;
-	while(k){
-		if (k.nodeType == 3)
-			str += k.textContent;
-		k = k.nextSibling;
-	}
-
-	var shader;
-	if(shaderScript.type == "x-shader/x-fragment"){
-		shader = gl.createShader(gl.FRAGMENT_SHADER);
-	}else if(shaderScript.type == "x-shader/x-vertex"){
-		shader = gl.createShader(gl.VERTEX_SHADER);
-	}else{
-		return null;
-	}
-
-	gl.shaderSource(shader, str);
-	gl.compileShader(shader);
-
-	if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)){
-		alert(gl.getShaderInfoLog(shader));
-		return null;
-	}
-
-	return shader;
+	pvm.setUniformLocations(gl, shaderProgram.getID());
 }
 
 function setMatrixUniforms(){
@@ -131,18 +100,24 @@ function drawScene(){
 
 	/*mat4.identity(mvMatrix);*/
 	pvm.push();
+	shaderProgram.use(gl);
 
-	gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-	gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+	/*gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+	gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);*/
+
+	gl.enableVertexAttribArray(shaderProgram.getPositionAttribute());
+	gl.enableVertexAttribArray(shaderProgram.getColorAttribute());
 
 	/*mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);*/
 	pvm.translate(-1.5, 0.0, -7.0);
 
 	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertextPositionBuffer);
-	gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertextPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+	/*gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertextPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);*/
+	gl.vertexAttribPointer(shaderProgram.getPositionAttribute(), triangleVertextPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 	gl.bindBuffer(gl.ARRAY_BUFFER, triangleColorBuffer);
-	gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, triangleColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+	/*gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, triangleColorBuffer.itemSize, gl.FLOAT, false, 0, 0);*/
+	gl.vertexAttribPointer(shaderProgram.getColorAttribute(), triangleColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 	setMatrixUniforms();
 	pvm.pop();
