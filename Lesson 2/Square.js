@@ -7,6 +7,10 @@ function Square(position){
 	this.position = position;
 }
 
+Square.prototype.setPosition = function(){
+	this.position = position;
+}
+
 Square.prototype.create = function(gl, size){
 	this.vpBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.vpBuffer);
@@ -44,7 +48,6 @@ Square.prototype.create = function(gl, size){
 Square.prototype.draw = function(gl, pvm, shader){
 	pvm.push();
 	shader.use(gl);
-	
 
 	gl.enableVertexAttribArray(shader.getPositionAttribute());
 	gl.enableVertexAttribArray(shader.getColorAttribute());

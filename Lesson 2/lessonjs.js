@@ -4,6 +4,8 @@ var gl;
 var shaderProgram;
 var pvm = new PVM();
 var triangle;
+var trianglePos = new Vector3(0, 0, -1);
+var triangleDir = 1;
 
 function webGLStart(){
 	var canvas = document.getElementById("canvas");
@@ -14,6 +16,11 @@ function webGLStart(){
 
 	gl.clearColor(0.0, 0.0, 0.0, 1.0);
 	gl.enable(gl.DEPTH_TEST);
+
+	gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+
+	/*mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);*/
+	pvm.setPerspective(gl.viewportWidth, gl.viewportHeight);
 
 	drawScene();
 }
@@ -88,16 +95,21 @@ function initBuffers(){
 	triangleColorBuffer.numItems = 3;
 	//gl.bindBuffer(gl.ARRAY_BUFFER, null);*/
 
-	triangle = new Square(new Vector3(-1.5, 0.0, -7.0));
-	triangle.create(gl, 1);
+	triangle = new Square(trianglePos);
+	triangle.create(gl, 0.1);
 }
 
 function drawScene(){
-	gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	requestAnimFrame(drawScene);
+	if(trianglePos.getX() >= 500){
+		triangleDir = -1;
+	}else if(trianglePos.getX() <= -500){
+		triangleDir = 1;
+	}
 
-	/*mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);*/
-	pvm.setPerspective(gl.viewportWidth, gl.viewportHeight);
+	trianglePos.setX(trianglePos.getX() + (5 * triangleDir));
+
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 // /*	//mat4.identity(mvMatrix);
 // 	//pvm.push();

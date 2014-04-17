@@ -3,6 +3,8 @@ PVM.prototype.mvMatrix = mat4.create();
 PVM.prototype.pMatrix = mat4.create();
 PVM.prototype.mvMatrixUniformLocation = -1;
 PVM.prototype.pMatrixUniformLocation = -1;
+PVM.prototype.viewWidth;
+PVM.prototype.viewHeight;
 
 function PVM(){
 
@@ -10,7 +12,9 @@ function PVM(){
 }
 
 PVM.prototype.setPerspective = function(viewportWidth, viewportHeight){
-	mat4.perspective(45, viewportWidth / viewportHeight, 0.1, 100.0, this.pMatrix);
+	mat4.perspective(90, viewportWidth / viewportHeight, 0.1, 100.0, this.pMatrix);
+	this.viewHeight = viewportHeight;
+	this.viewWidth = viewportWidth;
 	mat4.identity(this.mvMatrix);
 };
 
@@ -25,7 +29,7 @@ PVM.prototype.setMatrixUniforms = function(gl){
 };
 
 PVM.prototype.translate = function(x, y, z){
-	mat4.translate(this.mvMatrix, [x, y, z]);
+	mat4.translate(this.mvMatrix, [x / this.viewWidth, y / this.viewHeight, z]);
 };
 
 PVM.prototype.pop = function(){

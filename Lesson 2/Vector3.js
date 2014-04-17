@@ -14,6 +14,10 @@ Vector3.prototype.add = function(vector){
 	this.z += vector.z;
 }
 
+Vector3.prototype.setX = function(x){
+	this.x = x;
+}
+
 Vector3.prototype.getX = function(){
 	return this.x;
 }
