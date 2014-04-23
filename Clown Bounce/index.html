@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script language="javascript" type="text/javascript" src="../glMatrix-0.9.5.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../webgl-utils.js"></script>
+	<script language="javascript" type="text/javascript" src="Vector3.js"></script>
+	<script language="javascript" type="text/javascript" src="PVM.js"></script>
+	<script language="javascript" type="text/javascript" src="Shader.js"></script>
+	<script language="javascript" type="text/javascript" src="Texture.js"></script>
+	<script language="javascript" type="text/javascript" src="AABB.js"></script>
+	<script language="javascript" type="text/javascript" src="Square.js"></script>
+	<script language="javascript" type="text/javascript" src="main.js"></script>
+
+	<title></title>
+</head>
+<body onload="webGLStart();">
+
+<script id="shader-fs" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec2 vTextureCoord;
+
+uniform sampler2D uSampler;
+
+void main(void){
+	gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+}
+
+</script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+
+attribute vec3 aVertexPosition;
+attribute vec2 aTextureCoord;
+
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+
+varying vec2 vTextureCoord;
+
+void main(void){
+	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+	vTextureCoord = aTextureCoord;
+}
+
+</script>
+<p>Score: <span id="score">0</span></p>
+<canvas id="canvas" width="500" height="500"></canvas>
+
+</body>
+</html>
