@@ -13,7 +13,7 @@ function Square(position, texturePath){
 	this.volume = new AABB();
 }
 
-Square.prototype.setPosition = function(){
+Square.prototype.setPosition = function(position){
 	this.position = position;
 }
 
@@ -32,9 +32,9 @@ Square.prototype.create = function(gl, size){
 			-1 * size, -1 * size, 0
 	];
 
-	var lengths = [size * (gl.viewportWidth)/2, size * (gl.viewportHeight + 5)/2, 0];
-	lengths[0] += 10;
-	lengths[1] += 10;
+	var lengths = [size * (gl.viewportWidth/2), size * (gl.viewportHeight/2), 0];
+	//lengths[0] += 20;
+	//lengths[1] += 20;
 	this.volume.setHalfLengths(lengths);
 
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.STATIC_DRAW);

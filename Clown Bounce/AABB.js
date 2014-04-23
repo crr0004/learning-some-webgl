@@ -31,8 +31,8 @@ AABB.prototype.setCenter = function(c){
 
 
 AABB.prototype.pointIntersect = function(x, y){
-	if(Math.abs(this.center.getX() - x) > (Math.abs(this.halfLengths[0]))) return false;
-	if(Math.abs(this.center.getY() - y) > (Math.abs(this.halfLengths[1]))) return false;
+	if(Math.abs(this.center.getX() - x) > (Math.abs(this.halfLengths[0]) + 20)) return false;
+	if(Math.abs(this.center.getY() - y) > (Math.abs(this.halfLengths[1]) + 20)) return false;
 
 	return true;
 };

@@ -9,9 +9,9 @@ Texture.prototype.create = function(gl, imagesrc){
 	this.id = gl.createTexture();
 
 	gl.bindTexture(gl.TEXTURE_2D, this.id);
-	/*gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
               new Uint8Array([0, 0, 0, 255])); // red
-*/
+
 	this.image = new Image();
 	var texture = this;
 	this.image.onload = function(){
